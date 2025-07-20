@@ -14,3 +14,8 @@ export type {
 
 export { Radio, RadioGroup } from './Radio'
 export type { RadioProps, RadioGroupProps } from './Radio'
+
+export { Drawer } from './Drawer'
+export type { DrawerProps } from './Drawer'
+
+export { AnimatedBackground } from './AnimatedBackground'
