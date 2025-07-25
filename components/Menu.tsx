@@ -1,115 +1,90 @@
 import React, { useState } from 'react'
-import {
-  ChevronDown,
-  ChevronRight,
-  Folder,
-  File,
-  Home,
-  Settings,
-  User,
-  Database,
-  Shield,
-  Bell
-} from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { ChevronRight, ChevronDown } from 'lucide-react'
 import { cn } from '../utils/cn'
 
 export interface MenuItem {
   id: string
   label: string
-  icon?: React.ComponentType<any>
+  icon?: React.ReactNode
   children?: MenuItem[]
-  href?: string
-  badge?: string | number
+  onClick?: () => void
+  disabled?: boolean
 }
 
 export interface MenuProps {
   items: MenuItem[]
   className?: string
-  level?: number
+  defaultExpandedIds?: string[]
 }
 
-export interface MenuItemProps {
+export interface MenuItemComponentProps {
   item: MenuItem
-  level?: number
-  onItemClick?: (item: MenuItem) => void
+  level: number
+  expandedIds: Set<string>
+  onToggle: (id: string) => void
 }
 
-const MenuItemComponent: React.FC<MenuItemProps> = ({
+const MenuItemComponent: React.FC<MenuItemComponentProps> = ({
   item,
-  level = 0,
-  onItemClick
+  level,
+  expandedIds,
+  onToggle
 }) => {
-  const [isExpanded, setIsExpanded] = useState(false)
   const hasChildren = item.children && item.children.length > 0
-  const Icon = item.icon
+  const isExpanded = expandedIds.has(item.id)
+  const paddingLeft = level * 16 + 16
 
   const handleClick = () => {
     if (hasChildren) {
-      setIsExpanded(!isExpanded)
-    } else {
-      onItemClick?.(item)
+      onToggle(item.id)
+    } else if (item.onClick && !item.disabled) {
+      item.onClick()
     }
   }
 
-  const indentLevel = level * 16
-
   return (
     <div className='select-none'>
-      <div
+      <motion.div
         className={cn(
-          'flex items-center justify-between px-3 py-2 rounded-lg cursor-pointer transition-all duration-200',
-          'hover:bg-gray-100 dark:hover:bg-gray-800',
-          'group relative',
-          hasChildren ? 'font-medium' : 'font-normal'
+          'flex items-center justify-between py-2 px-4 cursor-pointer transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-800',
+          item.disabled &&
+            'opacity-50 cursor-not-allowed hover:bg-transparent dark:hover:bg-transparent',
+          'group'
         )}
-        style={{ paddingLeft: `${12 + indentLevel}px` }}
+        style={{ paddingLeft }}
         onClick={handleClick}
+        whileHover={!item.disabled ? { x: 2 } : {}}
+        whileTap={!item.disabled ? { scale: 0.98 } : {}}
       >
-        <div className='flex items-center space-x-3 flex-1'>
-          <div className='flex items-center space-x-2'>
-            {hasChildren && (
-              <motion.div
-                animate={{ rotate: isExpanded ? 90 : 0 }}
-                transition={{ duration: 0.2, ease: 'easeInOut' }}
-                className='text-gray-500'
-              >
-                <ChevronRight size={16} />
-              </motion.div>
-            )}
-            {!hasChildren && level > 0 && (
-              <div className='w-4 h-4 flex items-center justify-center'>
-                <div className='w-1 h-1 bg-gray-400 rounded-full' />
-              </div>
-            )}
-            {Icon && (
-              <Icon
-                size={18}
-                className={cn(
-                  'text-gray-600 dark:text-gray-400',
-                  hasChildren && 'text-blue-600 dark:text-blue-400'
-                )}
-              />
-            )}
-          </div>
+        <div className='flex items-center gap-3'>
+          {item.icon && (
+            <span className='text-gray-600 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-200 transition-colors'>
+              {item.icon}
+            </span>
+          )}
           <span
             className={cn(
-              'text-gray-900 dark:text-gray-100 truncate',
-              hasChildren && 'text-gray-900 dark:text-white font-semibold'
+              'text-gray-800 dark:text-gray-200 font-medium',
+              item.disabled && 'text-gray-400 dark:text-gray-600'
             )}
           >
             {item.label}
           </span>
         </div>
 
-        {item.badge && (
-          <span className='ml-2 px-2 py-1 text-xs bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full'>
-            {item.badge}
-          </span>
+        {hasChildren && (
+          <motion.div
+            animate={{ rotate: isExpanded ? 90 : 0 }}
+            transition={{ duration: 0.2, ease: 'easeInOut' }}
+            className='text-gray-500 dark:text-gray-400'
+          >
+            <ChevronRight size={16} />
+          </motion.div>
         )}
-      </div>
+      </motion.div>
 
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {hasChildren && isExpanded && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
@@ -117,7 +92,8 @@ const MenuItemComponent: React.FC<MenuItemProps> = ({
             exit={{ height: 0, opacity: 0 }}
             transition={{
               duration: 0.3,
-              ease: [0.04, 0.62, 0.23, 0.98]
+              ease: 'easeInOut',
+              opacity: { duration: 0.2 }
             }}
             className='overflow-hidden'
           >
@@ -126,14 +102,14 @@ const MenuItemComponent: React.FC<MenuItemProps> = ({
               animate={{ y: 0 }}
               exit={{ y: -10 }}
               transition={{ duration: 0.2, delay: 0.1 }}
-              className='py-1'
             >
-              {item.children?.map(child => (
+              {item.children!.map(child => (
                 <MenuItemComponent
                   key={child.id}
                   item={child}
                   level={level + 1}
-                  onItemClick={onItemClick}
+                  expandedIds={expandedIds}
+                  onToggle={onToggle}
                 />
               ))}
             </motion.div>
@@ -144,208 +120,43 @@ const MenuItemComponent: React.FC<MenuItemProps> = ({
   )
 }
 
-export const Menu: React.FC<MenuProps> = ({ items, className, level = 0 }) => {
-  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null)
+export const Menu: React.FC<MenuProps> = ({
+  items,
+  className,
+  defaultExpandedIds = []
+}) => {
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(
+    new Set(defaultExpandedIds)
+  )
 
-  const handleItemClick = (item: MenuItem) => {
-    setSelectedItem(item)
-    console.log('Selected item:', item)
+  const handleToggle = (id: string) => {
+    setExpandedIds(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(id)) {
+        newSet.delete(id)
+      } else {
+        newSet.add(id)
+      }
+      return newSet
+    })
   }
 
   return (
-    <div className={cn('space-y-1', className)}>
+    <div
+      className={cn(
+        'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm overflow-hidden',
+        className
+      )}
+    >
       {items.map(item => (
         <MenuItemComponent
           key={item.id}
           item={item}
-          level={level}
-          onItemClick={handleItemClick}
+          level={0}
+          expandedIds={expandedIds}
+          onToggle={handleToggle}
         />
       ))}
-
-      {selectedItem && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className='mt-4 p-4 bg-blue-50 dark:bg-blue-950 rounded-lg border border-blue-200 dark:border-blue-800'
-        >
-          <div className='text-sm text-blue-800 dark:text-blue-200'>
-            已选择: <span className='font-semibold'>{selectedItem.label}</span>
-          </div>
-        </motion.div>
-      )}
     </div>
   )
 }
-
-// 预设的菜单数据示例
-export const sampleMenuData: MenuItem[] = [
-  {
-    id: '1',
-    label: '仪表板',
-    icon: Home,
-    badge: 'New'
-  },
-  {
-    id: '2',
-    label: '用户管理',
-    icon: User,
-    children: [
-      {
-        id: '2-1',
-        label: '用户列表',
-        icon: User,
-        badge: 156
-      },
-      {
-        id: '2-2',
-        label: '用户权限',
-        icon: Shield,
-        children: [
-          {
-            id: '2-2-1',
-            label: '角色管理',
-            icon: Shield
-          },
-          {
-            id: '2-2-2',
-            label: '权限分配',
-            icon: Shield,
-            children: [
-              {
-                id: '2-2-2-1',
-                label: '系统权限',
-                icon: Settings
-              },
-              {
-                id: '2-2-2-2',
-                label: '数据权限',
-                icon: Database
-              },
-              {
-                id: '2-2-2-3',
-                label: '功能权限',
-                icon: Settings,
-                children: [
-                  {
-                    id: '2-2-2-3-1',
-                    label: '读取权限',
-                    icon: File
-                  },
-                  {
-                    id: '2-2-2-3-2',
-                    label: '写入权限',
-                    icon: File
-                  },
-                  {
-                    id: '2-2-2-3-3',
-                    label: '删除权限',
-                    icon: File
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        id: '2-3',
-        label: '用户组',
-        icon: User
-      }
-    ]
-  },
-  {
-    id: '3',
-    label: '内容管理',
-    icon: Folder,
-    children: [
-      {
-        id: '3-1',
-        label: '文章管理',
-        icon: File,
-        children: [
-          {
-            id: '3-1-1',
-            label: '发布文章',
-            icon: File
-          },
-          {
-            id: '3-1-2',
-            label: '草稿箱',
-            icon: File,
-            badge: 8
-          },
-          {
-            id: '3-1-3',
-            label: '已发布',
-            icon: File,
-            badge: 42
-          }
-        ]
-      },
-      {
-        id: '3-2',
-        label: '媒体库',
-        icon: Folder,
-        children: [
-          {
-            id: '3-2-1',
-            label: '图片',
-            icon: File
-          },
-          {
-            id: '3-2-2',
-            label: '视频',
-            icon: File
-          },
-          {
-            id: '3-2-3',
-            label: '文档',
-            icon: File
-          }
-        ]
-      }
-    ]
-  },
-  {
-    id: '4',
-    label: '系统设置',
-    icon: Settings,
-    children: [
-      {
-        id: '4-1',
-        label: '基础设置',
-        icon: Settings
-      },
-      {
-        id: '4-2',
-        label: '通知设置',
-        icon: Bell,
-        children: [
-          {
-            id: '4-2-1',
-            label: '邮件通知',
-            icon: Bell
-          },
-          {
-            id: '4-2-2',
-            label: '短信通知',
-            icon: Bell
-          },
-          {
-            id: '4-2-3',
-            label: '推送通知',
-            icon: Bell
-          }
-        ]
-      }
-    ]
-  },
-  {
-    id: '5',
-    label: '数据统计',
-    icon: Database,
-    badge: '实时'
-  }
-]
