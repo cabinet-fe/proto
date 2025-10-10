@@ -51,15 +51,15 @@ function App() {
   }
 
   return (
-    <div className='flex h-screen bg-gray-50'>
+    <div className='flex h-screen bg-gray-50 overflow-hidden'>
       {/* 侧边栏 */}
       <div
         className={`${
           sidebarOpen ? 'w-64' : 'w-16'
-        } bg-white shadow-lg transition-all duration-300 flex flex-col`}
+        } bg-white shadow-lg transition-all duration-300 flex flex-col flex-shrink-0`}
       >
         {/* 侧边栏头部 */}
-        <div className='p-4 border-b border-gray-200 flex items-center justify-between'>
+        <div className='p-4 border-b border-gray-200 flex items-center justify-between flex-shrink-0'>
           {sidebarOpen && (
             <h1 className='text-xl font-bold text-gray-800'>原型平台</h1>
           )}
@@ -72,7 +72,7 @@ function App() {
         </div>
 
         {/* 导航菜单 */}
-        <nav className='flex-1 p-4'>
+        <nav className='flex-1 overflow-y-auto p-4'>
           <ul className='space-y-2'>
             {/* 首页 */}
             <li>
@@ -84,8 +84,8 @@ function App() {
                     : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
-                <Home size={20} className='mr-3' />
-                {sidebarOpen && '首页'}
+                <Home size={20} className='mr-3 flex-shrink-0' />
+                {sidebarOpen && <span className='truncate'>首页</span>}
               </button>
             </li>
 
@@ -113,8 +113,8 @@ function App() {
                   }`}
                   title={!sidebarOpen ? page.name : undefined}
                 >
-                  <FileText size={20} className='mr-3' />
-                  {sidebarOpen && page.name}
+                  <FileText size={20} className='mr-3 flex-shrink-0' />
+                  {sidebarOpen && <span className='truncate'>{page.name}</span>}
                 </button>
               </li>
             ))}
@@ -122,7 +122,7 @@ function App() {
         </nav>
 
         {/* 侧边栏底部 */}
-        <div className='p-4 border-t border-gray-200'>
+        <div className='p-4 border-t border-gray-200 flex-shrink-0'>
           <div className='text-xs text-gray-500 text-center'>
             {sidebarOpen && `共 ${pages.length} 个原型页面`}
           </div>
@@ -130,8 +130,8 @@ function App() {
       </div>
 
       {/* 主内容区 */}
-      <div className='flex-1 overflow-auto'>
-        <div className='p-6'>
+      <div className='flex-1 overflow-hidden flex flex-col'>
+        <div className='flex-1 overflow-auto p-6'>
           <Routes>
             {/* 首页路由 */}
             <Route
