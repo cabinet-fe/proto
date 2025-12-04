@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronRight, ChevronDown } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 import { cn } from '../utils/cn'
 
 export interface MenuItem {
