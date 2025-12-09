@@ -6,7 +6,7 @@
 - 入口结构：`main.tsx` 挂载 `app.tsx`，`app.tsx` 通过 `import.meta.glob('./pages/*.tsx')` 动态收集页面并生成导航。
 
 ## 开发约定
-- 沟通与注释统一使用中文；保持 TypeScript 严格模式（已开启 strict），优先使用函数组件与现代 React API（hooks、Suspense、lazy）。
+- **沟通与注释统一使用中文**；保持 TypeScript 严格模式（已开启 strict），优先使用函数组件与现代 React API（hooks、Suspense、lazy）。
 - 新页面：放置于 `pages/`，文件名使用 kebab-case，默认导出组件即可参与自动路由，无需手动注册。
 - 复用：通用 UI 放 `components/`，通用逻辑放 `utils/`；样式优先 Tailwind 工具类，类名组合用 `clsx`/`tailwind-merge`，表单等基础控件优先用 Radix UI，动画可用 framer-motion。
 - UI 规范：保持响应式与可访问性（aria 属性、键盘与焦点状态），善用现代 CSS/JS 能力，避免过时 API。
