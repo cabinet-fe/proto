@@ -11,9 +11,11 @@
 - 复用：通用 UI 放 `components/`，通用逻辑放 `utils/`；样式优先 Tailwind 工具类，类名组合用 `clsx`/`tailwind-merge`，表单等基础控件优先用 Radix UI，动画可用 framer-motion。
 - UI 规范：保持响应式与可访问性（aria 属性、键盘与焦点状态），善用现代 CSS/JS 能力，避免过时 API。
 - 示例：新增 `pages/aurora-login.tsx` 现代玻璃拟态登录页，可复用布局/按钮/输入焦点交互模式。
+- 示例：新增 `pages/chinese-style-demo-2.tsx` 三套国风主题切换页，示范用 CSS 变量 token + Tailwind 任意值实现“同结构换皮肤”。
 
 ## 质量与检查
 - 每次改动需保证“先修复报错再提交”；提交前至少运行 `bun run lint` 与 `bun run build` 确认无类型/构建错误。
+- 当前 `bun run lint` 以 TypeScript 类型检查（`tsc --noEmit`）为主，用于在无额外依赖情况下快速拦截类型问题；如需更强的代码风格/规则校验，可再引入 ESLint/Biome 并补充配置。
 - 变更说明需注明意图、边界与潜在风险，涉及交互的变更请验证在窄屏与桌面端的表现。
 
 ## 文档维护

@@ -131,53 +131,51 @@ function App() {
 
       {/* 主内容区 */}
       <div className='flex-1 overflow-hidden flex flex-col'>
-        <div className='flex-1 overflow-auto p-6'>
-          <Routes>
-            {/* 首页路由 */}
-            <Route
-              path='/'
-              element={<HomePage pages={pages} onNavigate={handleNavigation} />}
-            />
+        <Routes>
+          {/* 首页路由 */}
+          <Route
+            path='/'
+            element={<HomePage pages={pages} onNavigate={handleNavigation} />}
+          />
 
-            {/* 动态页面路由 */}
-            {pages.map(page => (
-              <Route
-                key={page.path}
-                path={`/${page.path}`}
-                element={
-                  <Suspense
-                    fallback={
-                      <div className='flex items-center justify-center h-64'>
-                        <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600'></div>
-                      </div>
-                    }
-                  >
-                    <page.component />
-                  </Suspense>
-                }
-              />
-            ))}
-
-            {/* 404 页面 */}
+          {/* 动态页面路由 */}
+          {pages.map(page => (
             <Route
-              path='*'
+              key={page.path}
+              path={`/${page.path}`}
               element={
-                <div className='text-center py-12'>
-                  <h2 className='text-2xl font-bold text-gray-800 mb-4'>
-                    页面未找到
-                  </h2>
-                  <p className='text-gray-600 mb-6'>您访问的页面不存在</p>
-                  <button
-                    onClick={() => handleNavigation('home')}
-                    className='px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors'
-                  >
-                    返回首页
-                  </button>
-                </div>
+                <Suspense
+                  fallback={
+                    <div className='flex items-center justify-center h-64'>
+                      <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600'></div>
+                    </div>
+                  }
+                >
+                  <page.component />
+                </Suspense>
               }
             />
-          </Routes>
-        </div>
+          ))}
+
+          {/* 404 页面 */}
+          <Route
+            path='*'
+            element={
+              <div className='text-center py-12'>
+                <h2 className='text-2xl font-bold text-gray-800 mb-4'>
+                  页面未找到
+                </h2>
+                <p className='text-gray-600 mb-6'>您访问的页面不存在</p>
+                <button
+                  onClick={() => handleNavigation('home')}
+                  className='px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors'
+                >
+                  返回首页
+                </button>
+              </div>
+            }
+          />
+        </Routes>
       </div>
     </div>
   )
