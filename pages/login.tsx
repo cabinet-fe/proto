@@ -1,6 +1,15 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { User, Lock, Eye, EyeOff, Github, Chrome, MessageCircle, Sparkles } from 'lucide-react'
+import {
+  User,
+  Lock,
+  Eye,
+  EyeOff,
+  Github,
+  Chrome,
+  MessageCircle,
+  Sparkles
+} from 'lucide-react'
 import { Input, Button, AnimatedBackground } from '../components'
 import { cn } from '../utils/cn'
 
@@ -35,7 +44,7 @@ export default function LoginPage() {
   ]
 
   return (
-    <div className='relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900'>
+    <div className='relative w-full overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900'>
       {/* 动态背景 */}
       <AnimatedBackground variant='cosmic' />
 
@@ -82,7 +91,9 @@ export default function LoginPage() {
                 <Sparkles className='h-8 w-8 text-white' />
               </div>
               <h1 className='text-2xl font-bold text-white'>欢迎回来</h1>
-              <p className='mt-2 text-sm text-white/60'>登录以继续使用原型平台</p>
+              <p className='mt-2 text-sm text-white/60'>
+                登录以继续使用原型平台
+              </p>
             </motion.div>
 
             {/* 登录表单 */}
@@ -129,7 +140,11 @@ export default function LoginPage() {
                   aria-label={showPassword ? '隐藏密码' : '显示密码'}
                   className='absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white/80 focus-visible:outline-none focus-visible:text-white transition-colors'
                 >
-                  {showPassword ? <EyeOff className='h-5 w-5' /> : <Eye className='h-5 w-5' />}
+                  {showPassword ? (
+                    <EyeOff className='h-5 w-5' />
+                  ) : (
+                    <Eye className='h-5 w-5' />
+                  )}
                 </button>
               </div>
 

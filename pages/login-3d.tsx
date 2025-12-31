@@ -1,10 +1,25 @@
 import React, { useState, useRef } from 'react'
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
-import { User, Lock, Eye, EyeOff, ArrowRight, Fingerprint, Shield, Zap } from 'lucide-react'
+import {
+  User,
+  Lock,
+  Eye,
+  EyeOff,
+  ArrowRight,
+  Fingerprint,
+  Shield,
+  Zap
+} from 'lucide-react'
 import { cn } from '../utils/cn'
 
 // 3D 卡片组件 - 跟随鼠标倾斜
-function Card3D({ children, className }: { children: React.ReactNode; className?: string }) {
+function Card3D({
+  children,
+  className
+}: {
+  children: React.ReactNode
+  className?: string
+}) {
   const ref = useRef<HTMLDivElement>(null)
   const x = useMotionValue(0)
   const y = useMotionValue(0)
@@ -122,10 +137,7 @@ function ParticleField() {
 function GlowRing({ className }: { className?: string }) {
   return (
     <motion.div
-      className={cn(
-        'absolute rounded-full border border-white/20',
-        className
-      )}
+      className={cn('absolute rounded-full border border-white/20', className)}
       animate={{
         scale: [1, 1.2, 1],
         opacity: [0.3, 0.6, 0.3]
@@ -165,11 +177,15 @@ export default function Login3DPage() {
   const features = [
     { icon: Shield, label: '安全加密', color: 'from-emerald-400 to-cyan-400' },
     { icon: Zap, label: '极速响应', color: 'from-amber-400 to-orange-400' },
-    { icon: Fingerprint, label: '生物识别', color: 'from-purple-400 to-pink-400' }
+    {
+      icon: Fingerprint,
+      label: '生物识别',
+      color: 'from-purple-400 to-pink-400'
+    }
   ]
 
   return (
-    <div className='relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-950'>
+    <div className='relative w-full overflow-hidden bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-950'>
       {/* 粒子背景 */}
       <ParticleField />
 
@@ -212,7 +228,10 @@ export default function Login3DPage() {
       />
 
       {/* 主内容 */}
-      <div className='relative z-10 flex min-h-screen items-center justify-center p-4' style={{ perspective: '1000px' }}>
+      <div
+        className='relative z-10 flex min-h-screen items-center justify-center p-4'
+        style={{ perspective: '1000px' }}
+      >
         <motion.div
           initial={{ opacity: 0, z: -100 }}
           animate={{ opacity: 1, z: 0 }}
@@ -240,7 +259,10 @@ export default function Login3DPage() {
               />
 
               {/* 卡片内容 */}
-              <div className='relative p-8' style={{ transform: 'translateZ(50px)' }}>
+              <div
+                className='relative p-8'
+                style={{ transform: 'translateZ(50px)' }}
+              >
                 {/* Logo 区域 */}
                 <motion.div
                   initial={{ opacity: 0, y: -20 }}
@@ -259,7 +281,11 @@ export default function Login3DPage() {
                     >
                       <motion.div
                         animate={{ rotateY: 360 }}
-                        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                        transition={{
+                          duration: 20,
+                          repeat: Infinity,
+                          ease: 'linear'
+                        }}
                       >
                         <Fingerprint className='w-10 h-10 text-white' />
                       </motion.div>
@@ -292,7 +318,11 @@ export default function Login3DPage() {
                   className='flex justify-center gap-3 mb-8'
                 >
                   {features.map((feature, index) => (
-                    <FloatingElement key={feature.label} delay={index * 0.2} duration={3 + index}>
+                    <FloatingElement
+                      key={feature.label}
+                      delay={index * 0.2}
+                      duration={3 + index}
+                    >
                       <motion.div
                         whileHover={{ scale: 1.1, y: -5 }}
                         className={cn(
@@ -301,7 +331,16 @@ export default function Login3DPage() {
                           'text-xs text-white/70'
                         )}
                       >
-                        <feature.icon className={cn('w-3.5 h-3.5 bg-gradient-to-r bg-clip-text', feature.color)} style={{ color: 'transparent', backgroundImage: `linear-gradient(to right, var(--tw-gradient-stops))` }} />
+                        <feature.icon
+                          className={cn(
+                            'w-3.5 h-3.5 bg-gradient-to-r bg-clip-text',
+                            feature.color
+                          )}
+                          style={{
+                            color: 'transparent',
+                            backgroundImage: `linear-gradient(to right, var(--tw-gradient-stops))`
+                          }}
+                        />
                         <span>{feature.label}</span>
                       </motion.div>
                     </FloatingElement>
@@ -387,7 +426,11 @@ export default function Login3DPage() {
                         className='absolute right-4 text-white/40 hover:text-white/80 transition-colors'
                         aria-label={showPassword ? '隐藏密码' : '显示密码'}
                       >
-                        {showPassword ? <EyeOff className='w-5 h-5' /> : <Eye className='w-5 h-5' />}
+                        {showPassword ? (
+                          <EyeOff className='w-5 h-5' />
+                        ) : (
+                          <Eye className='w-5 h-5' />
+                        )}
                       </button>
                     </div>
                   </div>
@@ -401,7 +444,10 @@ export default function Login3DPage() {
                       />
                       记住我
                     </label>
-                    <button type='button' className='text-indigo-400 hover:text-indigo-300 transition-colors'>
+                    <button
+                      type='button'
+                      className='text-indigo-400 hover:text-indigo-300 transition-colors'
+                    >
                       忘记密码?
                     </button>
                   </div>
@@ -425,7 +471,11 @@ export default function Login3DPage() {
                       className='absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent'
                       initial={{ x: '-100%' }}
                       animate={!isLoading ? { x: '100%' } : {}}
-                      transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 1 }}
+                      transition={{
+                        duration: 1.5,
+                        repeat: Infinity,
+                        repeatDelay: 1
+                      }}
                     />
 
                     <span className='relative flex items-center justify-center gap-2'>
@@ -434,7 +484,11 @@ export default function Login3DPage() {
                           <motion.div
                             className='w-5 h-5 border-2 border-white/30 border-t-white rounded-full'
                             animate={{ rotate: 360 }}
-                            transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                            transition={{
+                              duration: 1,
+                              repeat: Infinity,
+                              ease: 'linear'
+                            }}
                           />
                           验证中...
                         </>

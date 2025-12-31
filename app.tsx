@@ -130,7 +130,7 @@ function App() {
       </div>
 
       {/* 主内容区 */}
-      <div className='flex-1 overflow-hidden flex flex-col'>
+      <div className='flex-1 overflow-auto flex flex-col'>
         <Routes>
           {/* 首页路由 */}
           <Route

@@ -47,11 +47,14 @@ function InputField({
   return (
     <label className='block space-y-2 text-sm font-medium text-slate-200'>
       <span>{label}</span>
-      <div className={cn(
-        'relative flex items-center rounded-2xl border border-white/10 bg-white/5 px-4',
-        'backdrop-blur-md transition-shadow duration-300',
-        isFocused && 'shadow-[0_10px_40px_-15px_rgba(59,130,246,0.45)] border-blue-400/60'
-      )}>
+      <div
+        className={cn(
+          'relative flex items-center rounded-2xl border border-white/10 bg-white/5 px-4',
+          'backdrop-blur-md transition-shadow duration-300',
+          isFocused &&
+            'shadow-[0_10px_40px_-15px_rgba(59,130,246,0.45)] border-blue-400/60'
+        )}
+      >
         <Icon className='mr-3 h-5 w-5 text-slate-400' />
         <input
           className={cn(
@@ -75,7 +78,11 @@ function InputField({
             className='absolute right-4 text-slate-400 transition-colors hover:text-slate-100'
             aria-label={isVisible ? '隐藏密码' : '显示密码'}
           >
-            {isVisible ? <EyeOff className='h-5 w-5' /> : <Eye className='h-5 w-5' />}
+            {isVisible ? (
+              <EyeOff className='h-5 w-5' />
+            ) : (
+              <Eye className='h-5 w-5' />
+            )}
           </button>
         )}
       </div>
@@ -98,11 +105,14 @@ export default function AuroraLoginPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [remember, setRemember] = useState(true)
 
-  const insights = useMemo(() => ([
-    { label: '实时风险扫描', value: '99.97%', icon: ShieldCheck },
-    { label: '平均响应', value: '82ms', icon: Sparkles },
-    { label: '周活用户', value: '128K', icon: CheckCircle2 }
-  ]), [])
+  const insights = useMemo(
+    () => [
+      { label: '实时风险扫描', value: '99.97%', icon: ShieldCheck },
+      { label: '平均响应', value: '82ms', icon: Sparkles },
+      { label: '周活用户', value: '128K', icon: CheckCircle2 }
+    ],
+    []
+  )
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -118,16 +128,24 @@ export default function AuroraLoginPage() {
   }
 
   return (
-    <div className='relative min-h-screen overflow-hidden bg-slate-950 text-slate-50'>
+    <div className='relative  overflow-hidden bg-slate-950 text-slate-50'>
       {/* 背景装饰 */}
       <div className='absolute inset-0 bg-gradient-to-br from-blue-900/30 via-slate-900 to-slate-950' />
-      <div className='absolute inset-0' style={{
-        backgroundImage: 'radial-gradient(circle at 20% 20%, rgba(56, 189, 248, 0.12), transparent 35%), radial-gradient(circle at 80% 0%, rgba(139, 92, 246, 0.12), transparent 30%), radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.12), transparent 35%)'
-      }} />
-      <div className='absolute inset-0 opacity-40 mix-blend-soft-light' style={{
-        backgroundImage: 'linear-gradient(120deg, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(240deg, rgba(255,255,255,0.05) 1px, transparent 1px)',
-        backgroundSize: '32px 32px'
-      }} />
+      <div
+        className='absolute inset-0'
+        style={{
+          backgroundImage:
+            'radial-gradient(circle at 20% 20%, rgba(56, 189, 248, 0.12), transparent 35%), radial-gradient(circle at 80% 0%, rgba(139, 92, 246, 0.12), transparent 30%), radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.12), transparent 35%)'
+        }}
+      />
+      <div
+        className='absolute inset-0 opacity-40 mix-blend-soft-light'
+        style={{
+          backgroundImage:
+            'linear-gradient(120deg, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(240deg, rgba(255,255,255,0.05) 1px, transparent 1px)',
+          backgroundSize: '32px 32px'
+        }}
+      />
 
       <div className='relative z-10 mx-auto flex min-h-screen max-w-6xl items-center px-4 py-12 lg:px-12'>
         <div className='grid w-full grid-cols-1 gap-8 lg:grid-cols-2'>
@@ -170,7 +188,9 @@ export default function AuroraLoginPage() {
                       <span>{item.label}</span>
                       <item.icon className='h-4 w-4 text-cyan-300' />
                     </div>
-                    <div className='mt-3 text-2xl font-semibold text-slate-50'>{item.value}</div>
+                    <div className='mt-3 text-2xl font-semibold text-slate-50'>
+                      {item.value}
+                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -201,8 +221,12 @@ export default function AuroraLoginPage() {
             <div className='relative space-y-6'>
               <div className='flex items-center justify-between'>
                 <div>
-                  <p className='text-sm uppercase tracking-[0.12em] text-cyan-200/80'>Login</p>
-                  <h2 className='mt-1 text-2xl font-semibold text-slate-50'>欢迎回来</h2>
+                  <p className='text-sm uppercase tracking-[0.12em] text-cyan-200/80'>
+                    Login
+                  </p>
+                  <h2 className='mt-1 text-2xl font-semibold text-slate-50'>
+                    欢迎回来
+                  </h2>
                 </div>
                 <div className='rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200'>
                   <span className='font-semibold text-cyan-200'>SLA 99.9%</span>
@@ -244,7 +268,10 @@ export default function AuroraLoginPage() {
                     />
                     记住我
                   </label>
-                  <button type='button' className='text-cyan-200 transition-colors hover:text-cyan-100'>
+                  <button
+                    type='button'
+                    className='text-cyan-200 transition-colors hover:text-cyan-100'
+                  >
                     忘记密码？
                   </button>
                 </div>
