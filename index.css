@@ -11,3 +11,67 @@ body {
   width: 100%;
   height: 100vh;
 }
+
+/* CSS Loaders Keyframes */
+
+@keyframes css-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes css-pulse-wave {
+  0%, 100% { transform: scaleY(0.3); opacity: 0.5; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+
+@keyframes css-morph-1 {
+  0% { border-radius: 20%; transform: rotate(0deg) scale(1); }
+  50% { border-radius: 50%; transform: rotate(180deg) scale(0.8); }
+  100% { border-radius: 20%; transform: rotate(360deg) scale(1); }
+}
+
+@keyframes css-morph-2 {
+  0% { border-radius: 50%; transform: rotate(0deg) scale(0.8); }
+  50% { border-radius: 20%; transform: rotate(-180deg) scale(1); }
+  100% { border-radius: 50%; transform: rotate(-360deg) scale(0.8); }
+}
+
+@keyframes css-shimmer {
+  from { -webkit-mask-position: -100% 0; mask-position: -100% 0; }
+  to { -webkit-mask-position: 200% 0; mask-position: 200% 0; }
+}
+
+@keyframes css-gooey-1 {
+  0%, 100% { transform: translateX(-30px) scale(1); }
+  50% { transform: translateX(30px) scale(1.2); }
+}
+
+@keyframes css-gooey-2 {
+  0%, 100% { transform: translateX(30px) scale(1.2); }
+  50% { transform: translateX(-30px) scale(1); }
+}
+
+/* Utility classes for animations not in Tailwind default config */
+.animate-css-spin {
+  animation: css-spin 0.8s linear infinite;
+}
+.animate-css-orbit-outer {
+  animation: css-spin 2s linear infinite;
+}
+.animate-css-orbit-inner {
+  animation: css-spin 3s linear reverse infinite;
+}
+.animate-css-shimmer {
+  animation: css-shimmer 2s linear infinite;
+}
+.animate-css-morph-1 {
+  animation: css-morph-1 2.5s ease-in-out infinite;
+}
+.animate-css-morph-2 {
+  animation: css-morph-2 2.5s ease-in-out infinite;
+}
+.animate-css-gooey-1 {
+  animation: css-gooey-1 2s ease-in-out infinite;
+}
+.animate-css-gooey-2 {
+  animation: css-gooey-2 2s ease-in-out infinite;
+}
