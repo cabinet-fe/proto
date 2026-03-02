@@ -25,3 +25,5 @@ export type { TransitionProps } from './Transition'
 
 export { Menu } from './Menu'
 export type { MenuProps, MenuItem } from './Menu'
+
+export { Scroll } from './Scroll'
