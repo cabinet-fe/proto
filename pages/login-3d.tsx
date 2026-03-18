@@ -12,6 +12,10 @@ import {
 } from 'lucide-react'
 import { cn } from '../utils/cn'
 
+export const pageMeta = {
+  title: '3D 登录页'
+}
+
 // 3D 卡片组件 - 跟随鼠标倾斜
 function Card3D({
   children,

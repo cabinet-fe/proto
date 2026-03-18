@@ -1,15 +1,36 @@
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { Home, FileText, Menu, X } from "lucide-react";
 import { Scroll } from "./components/Scroll";
 
-// 使用 Vite 的 import.meta.glob 动态导入所有页面
 const pageModules = import.meta.glob("./pages/*.tsx");
+
+type PageModule = {
+  default: React.ComponentType<any>;
+};
+
+type PageMeta = {
+  title: string;
+  order?: number;
+};
+
+const pageMetaModules = import.meta.glob("./pages/*.tsx", {
+  import: "pageMeta",
+}) as Record<string, () => Promise<PageMeta | undefined>>;
 
 interface PageInfo {
   name: string;
   path: string;
   component: React.LazyExoticComponent<React.ComponentType<any>>;
+  order: number;
+}
+
+function formatFallbackPageName(routePath: string) {
+  return routePath
+    .split("-")
+    .filter(Boolean)
+    .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
+    .join(" ");
 }
 
 function PageScroll({ children }: { children: React.ReactNode }) {
@@ -27,21 +48,34 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
-    // 处理动态导入的页面
-    const pageList: PageInfo[] = Object.keys(pageModules).map((path) => {
-      const name = path.replace("./pages/", "").replace(".tsx", "");
-      return {
-        name: name.charAt(0).toUpperCase() + name.slice(1),
-        path: name,
-        component: React.lazy(
-          pageModules[path] as () => Promise<{
-            default: React.ComponentType<any>;
-          }>,
-        ),
-      };
-    });
+    async function loadPages() {
+      const pageList = await Promise.all(
+        Object.entries(pageModules).map(async ([modulePath, importer]) => {
+          const routePath = modulePath.replace("./pages/", "").replace(".tsx", "");
+          const metaLoader = pageMetaModules[modulePath];
+          const meta = metaLoader ? await metaLoader() : undefined;
 
-    setPages(pageList);
+          return {
+            name: meta?.title ?? formatFallbackPageName(routePath),
+            path: routePath,
+            order: meta?.order ?? Number.MAX_SAFE_INTEGER,
+            component: React.lazy(importer as () => Promise<PageModule>),
+          };
+        }),
+      );
+
+      setPages(
+        pageList.sort((firstPage, secondPage) => {
+          if (firstPage.order !== secondPage.order) {
+            return firstPage.order - secondPage.order;
+          }
+
+          return firstPage.path.localeCompare(secondPage.path);
+        }),
+      );
+    }
+
+    void loadPages();
   }, []);
 
   // 获取当前路径对应的页面名称

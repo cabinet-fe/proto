@@ -2,6 +2,10 @@ import React, { useMemo, useState } from 'react'
 import { ArrowRight, CheckCircle2, Feather, Hexagon, Mountain, Zap } from 'lucide-react'
 import { cn } from '../utils/cn'
 
+export const pageMeta = {
+  title: '卡片样式实验室'
+}
+
 type StyleId = 'editorial' | 'neon' | 'nature' | 'brutalist'
 
 type IconType = React.ComponentType<React.SVGProps<SVGSVGElement>>

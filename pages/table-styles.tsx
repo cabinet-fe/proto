@@ -2,6 +2,10 @@ import { MinimalTable } from '../components/tables/MinimalTable'
 import { RowEditTable } from '../components/tables/RowEditTable'
 import { RichEditTable } from '../components/tables/RichEditTable'
 
+export const pageMeta = {
+  title: '表格样式设计'
+}
+
 export default function TableStylesPage() {
   return (
     <div className="max-w-6xl mx-auto py-8 space-y-12">

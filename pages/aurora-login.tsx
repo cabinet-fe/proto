@@ -13,6 +13,10 @@ import {
 } from 'lucide-react'
 import { cn } from '../utils/cn'
 
+export const pageMeta = {
+  title: '极光登录页'
+}
+
 type IconType = React.ComponentType<React.SVGProps<SVGSVGElement>>
 
 interface InputFieldProps {

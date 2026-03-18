@@ -6,6 +6,10 @@ import {
   PolarAngleAxis, PolarRadiusAxis,
 } from "recharts";
 
+export const pageMeta = {
+  title: '赛博霓虹仪表盘'
+};
+
 // ── 模拟数据 ──
 const revenueData = [
   { month: "Jan", value: 186, prev: 145 },

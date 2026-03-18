@@ -14,6 +14,10 @@ import {
 } from 'lucide-react';
 import { cn } from '../utils/cn';
 
+export const pageMeta = {
+  title: '纵向导航设计'
+};
+
 // --- 模拟数据 ---
 const MENU_ITEMS = [
   { id: 'dashboard', label: 'Dashboard', icon: Home },

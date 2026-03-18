@@ -13,6 +13,10 @@ import {
 import { Input, Button, AnimatedBackground } from '../components'
 import { cn } from '../utils/cn'
 
+export const pageMeta = {
+  title: '经典登录页'
+}
+
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)

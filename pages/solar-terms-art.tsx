@@ -2,6 +2,10 @@ import React, { useMemo, useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '../utils/cn'
 
+export const pageMeta = {
+  title: '节气艺术海报'
+}
+
 // --- 类型定义 ---
 
 type Season = 'spring' | 'summer' | 'autumn' | 'winter'

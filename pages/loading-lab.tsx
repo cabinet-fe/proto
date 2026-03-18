@@ -1,5 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
+export const pageMeta = {
+  title: '加载动效实验室'
+}
+
 type LoaderCardProps = {
   title: string
   desc: string

@@ -9,6 +9,10 @@ import {
 import { Card } from '../components/Card';
 import AnimatedBackground from '../components/AnimatedBackground';
 
+export const pageMeta = {
+  title: '纯 CSS 加载动画'
+};
+
 export default function CssLoadersDemo() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-8 font-sans text-gray-900 dark:text-gray-100 relative overflow-hidden">

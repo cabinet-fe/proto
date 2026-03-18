@@ -13,6 +13,10 @@ import {
 } from 'lucide-react';
 import { cn } from '../utils/cn';
 
+export const pageMeta = {
+  title: '嵌套导航设计'
+};
+
 // --- 模拟嵌套数据 ---
 const NAVIGATION_DATA = [
   {

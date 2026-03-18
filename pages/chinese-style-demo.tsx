@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { cn } from '../utils/cn';
 import { Hexagon, Zap, Feather, Scroll, Wind, Mountain } from 'lucide-react';
 
+export const pageMeta = {
+  title: '中式风格演示'
+};
+
 type Theme = 'ink' | 'porcelain' | 'china-chic';
 
 interface ThemeConfig {
